@@ -15,7 +15,8 @@
     <projectFiles>
         <directory name="lib" />
         <ignoreFiles>
-            <directory name="vendor" />
+			<directory name="vendor" />
+			<directory name="openapi-extractor" />
         </ignoreFiles>
 	</projectFiles>
 	<extraFiles>

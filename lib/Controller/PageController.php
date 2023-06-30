@@ -19,6 +19,7 @@ class PageController extends Controller {
 	}
 
 	/**
+	 * @IgnoreAPI
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *

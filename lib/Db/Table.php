@@ -3,10 +3,12 @@
 namespace OCA\Tables\Db;
 
 use JsonSerializable;
+use OCA\Tables\ResponseDefinitions;
 use OCP\AppFramework\Db\Entity;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
+ * @psalm-import-type TablesTable from ResponseDefinitions
  */
 class Table extends Entity implements JsonSerializable {
 	protected ?string $title = null;
@@ -28,6 +30,9 @@ class Table extends Entity implements JsonSerializable {
 		$this->addType('id', 'integer');
 	}
 
+	/**
+	 * @return TablesTable
+	 */
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->id,

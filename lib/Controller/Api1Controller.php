@@ -4,15 +4,21 @@ namespace OCA\Tables\Controller;
 
 use OCA\Tables\Api\V1Api;
 use OCA\Tables\AppInfo\Application;
+use OCA\Tables\Db\Table;
+use OCA\Tables\ResponseDefinitions;
 use OCA\Tables\Service\ColumnService;
 use OCA\Tables\Service\ImportService;
 use OCA\Tables\Service\RowService;
 use OCA\Tables\Service\ShareService;
 use OCA\Tables\Service\TableService;
 use OCP\AppFramework\ApiController;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
 
+/**
+ * @psalm-import-type TablesTable from ResponseDefinitions
+ */
 class Api1Controller extends ApiController {
 	private TableService $tableService;
 	private ShareService $shareService;
@@ -48,14 +54,26 @@ class Api1Controller extends ApiController {
 	}
 
 	/**
+	 * Returns all tables
+	 *
 	 * @NoAdminRequired
 	 * @CORS
 	 * @NoCSRFRequired
+	 *
+	 * @param string|null $keyword Keyword for search
+	 * @param int $limit Limit results
+	 * @param int $offset Offset for results
+	 * @return DataResponse<Http::STATUS_OK, TablesTable[], array{}>|DataResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 *
+	 * 200: Tables returned
+	 * 403: No permissions // refactor!
+	 * 404: No tables found
+	 * 500: Internal error
 	 */
 	public function index(string $keyword = null, int $limit = 100, int $offset = 0): DataResponse {
 		if ($keyword) {
 			return $this->handleError(function () use ($keyword, $limit, $offset) {
-				return $this->tableService->search($keyword, $limit, $offset);
+				return $this->formatTables($this->tableService->search($keyword, $limit, $offset));
 			});
 		} else {
 			return $this->handleError(function () {
@@ -65,6 +83,15 @@ class Api1Controller extends ApiController {
 	}
 
 	/**
+	 * @param array<Table> $tables
+	 * @return TablesTable[]
+	 */
+	private function formatTables(array $tables): array {
+		return array_map(fn (Table $table) => $table->jsonSerialize(), $tables);
+	}
+
+	/**
+	 * @IgnoreAPI
 	 * @NoAdminRequired
 	 * @CORS
 	 * @NoCSRFRequired
@@ -76,6 +103,7 @@ class Api1Controller extends ApiController {
 	}
 
 	/**
+	 * @IgnoreAPI
 	 * @NoAdminRequired
 	 * @CORS
 	 * @NoCSRFRequired
@@ -87,6 +115,7 @@ class Api1Controller extends ApiController {
 	}
 
 	/**
+	 * @IgnoreAPI
 	 * @NoAdminRequired
 	 * @CORS
 	 * @NoCSRFRequired
@@ -98,6 +127,7 @@ class Api1Controller extends ApiController {
 	}
 
 	/**
+	 * @IgnoreAPI
 	 * @NoAdminRequired
 	 * @CORS
 	 * @NoCSRFRequired
@@ -109,6 +139,7 @@ class Api1Controller extends ApiController {
 	}
 
 	/**
+	 * @IgnoreAPI
 	 * @NoAdminRequired
 	 * @CORS
 	 * @NoCSRFRequired
@@ -120,6 +151,7 @@ class Api1Controller extends ApiController {
 	}
 
 	/**
+	 * @IgnoreAPI
 	 * @NoAdminRequired
 	 * @CORS
 	 * @NoCSRFRequired
@@ -131,6 +163,7 @@ class Api1Controller extends ApiController {
 	}
 
 	/**
+	 * @IgnoreAPI
 	 * @NoAdminRequired
 	 * @CORS
 	 * @NoCSRFRequired
@@ -142,6 +175,7 @@ class Api1Controller extends ApiController {
 	}
 
 	/**
+	 * @IgnoreAPI
 	 * @NoAdminRequired
 	 * @CORS
 	 * @NoCSRFRequired
@@ -153,6 +187,7 @@ class Api1Controller extends ApiController {
 	}
 
 	/**
+	 * @IgnoreAPI
 	 * @NoAdminRequired
 	 * @CORS
 	 * @NoCSRFRequired
@@ -164,6 +199,7 @@ class Api1Controller extends ApiController {
 	}
 
 	/**
+	 * @IgnoreAPI
 	 * @NoAdminRequired
 	 * @CORS
 	 * @NoCSRFRequired
@@ -175,6 +211,7 @@ class Api1Controller extends ApiController {
 	}
 
 	/**
+	 * @IgnoreAPI
 	 * @NoAdminRequired
 	 * @CORS
 	 * @NoCSRFRequired
@@ -186,6 +223,7 @@ class Api1Controller extends ApiController {
 	}
 
 	/**
+	 * @IgnoreAPI
 	 * @NoAdminRequired
 	 * @CORS
 	 * @NoCSRFRequired
@@ -270,6 +308,7 @@ class Api1Controller extends ApiController {
 	}
 
 	/**
+	 * @IgnoreAPI
 	 * @NoAdminRequired
 	 * @CORS
 	 * @NoCSRFRequired
@@ -352,6 +391,7 @@ class Api1Controller extends ApiController {
 	}
 
 	/**
+	 * @IgnoreAPI
 	 * @NoAdminRequired
 	 * @CORS
 	 * @NoCSRFRequired
@@ -363,6 +403,7 @@ class Api1Controller extends ApiController {
 	}
 
 	/**
+	 * @IgnoreAPI
 	 * @NoAdminRequired
 	 * @CORS
 	 * @NoCSRFRequired
@@ -383,6 +424,7 @@ class Api1Controller extends ApiController {
 
 
 	/**
+	 * @IgnoreAPI
 	 * @NoAdminRequired
 	 * @CORS
 	 * @NoCSRFRequired
@@ -394,6 +436,7 @@ class Api1Controller extends ApiController {
 	}
 
 	/**
+	 * @IgnoreAPI
 	 * @NoAdminRequired
 	 * @CORS
 	 * @NoCSRFRequired
@@ -405,6 +448,7 @@ class Api1Controller extends ApiController {
 	}
 
 	/**
+	 * @IgnoreAPI
 	 * @NoAdminRequired
 	 * @CORS
 	 * @NoCSRFRequired
@@ -416,6 +460,7 @@ class Api1Controller extends ApiController {
 	}
 
 	/**
+	 * @IgnoreAPI
 	 * @NoAdminRequired
 	 * @CORS
 	 * @NoCSRFRequired
@@ -436,6 +481,7 @@ class Api1Controller extends ApiController {
 	}
 
 	/**
+	 * @IgnoreAPI
 	 * @NoAdminRequired
 	 * @CORS
 	 * @NoCSRFRequired
@@ -456,6 +502,7 @@ class Api1Controller extends ApiController {
 	}
 
 	/**
+	 * @IgnoreAPI
 	 * @NoAdminRequired
 	 * @CORS
 	 * @NoCSRFRequired

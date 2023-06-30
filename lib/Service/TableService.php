@@ -12,11 +12,15 @@ use OCA\Tables\Errors\NotFoundError;
 use OCA\Tables\Errors\PermissionError;
 use OCA\Tables\Helper\UserHelper;
 
+use OCA\Tables\ResponseDefinitions;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @psalm-import-type TablesTable from ResponseDefinitions
+ */
 class TableService extends SuperService {
 	private TableMapper $mapper;
 
@@ -207,7 +211,7 @@ class TableService extends SuperService {
 	 * @param int $limit
 	 * @param int $offset
 	 * @param string|null $userId
-	 * @return array
+	 * @return Table[]
 	 */
 	public function search(string $term, int $limit = 100, int $offset = 0, ?string $userId = null): array {
 		try {
